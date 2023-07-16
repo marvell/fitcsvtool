@@ -1,0 +1,16 @@
+version: '3'
+
+vars:
+  IMAGE: marvell/fitcsvtool
+  VERSION:
+    sh: cat ./VERSION
+
+tasks:
+  build:
+    cmds:
+      - docker buildx build --build-arg VERSION={{.VERSION}} -t {{.IMAGE}}:{{.VERSION}} .
+      - docker tag {{.IMAGE}}:{{.VERSION}} {{.IMAGE}}:latest
+  push:
+    cmds:
+      - docker push {{.IMAGE}}:{{.VERSION}}
+      - docker push {{.IMAGE}}:latest
